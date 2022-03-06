@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Enkel Statistikk</title>
+</head>
+<body>
+    <div id="content"></div>
+    <!-- Den er nesten ferdig, men mangler innehold i funksjonene i controlleren. Fullfør applikasjonen. 
+    Man skal kunne legge til ett og ett tall - og hver gang få vite sum, gjennomsnitt og antall tall. 
+    Om man trykker på Nullstill, skal den glemme alle tallene den har fått og begynne på nytt.  -->
+    <script>
+        // model    
+        var sum = 0;
+        var count = 0;
+        var inputValue = '';
+        var placeholder = 'Skriv tall/bruk piler'; 
+        // view
+        show();
+        function show() {
+            document.getElementById('content').innerHTML = /*html*/`
+                <p>Skriv tall i feltet og få summen, gjennomsnitt og antall.</p>
+                Tall: <input type="number" value="${inputValue}" placeholder="${placeholder}" oninput="inputValue = this.value">
+                <button onclick="add()">Legg til</button>
+                <button onclick="reset()">Nullstill</button>
+                <table>
+                    <tr><td>Sum:</td><td>${sum}</td></tr>
+                    <tr><td>Gjennomsnitt:</td><td>${count == 0 ? '<i>NA</i>' : sum / count}</td></tr>
+                    <tr><td>Antall tall:</td><td>${count}</td></tr>
+                </table>
+                `;
+        }
+
+        // controller
+        function add() {
+            let value = parseInt(inputValue);
+            sum += value; 
+            count++;
+            inputValue = '';
+            placeholder = 'Legg til flere';
+            show()
+        } 
+// value = parseInt(inputValue) fordi parse sender verdien som string, og "Int"teger betyr nermeste hele tall. så tekst hadde ikke blitt med.
+// sum appendes til value så blir slått sammen til nermeste Integer pga parseInt. 
+// count plusses med en når man trykker på knappen og er det summen blir delt på i ternary operatoren til gjennomsnitt cellen når antall trykk ikke er 0.
+// inputvaluen blir satt til ''/blank for å resette inputfeltet. . 
+
+        function reset() {
+            sum = 0; 
+            count = 0; 
+            inputValue = null;
+            placeholder = 'Nullstilt';
+            show()
+        }
+
+    </script>
+</body>
+</html>
